@@ -290,3 +290,14 @@ wt-config.cmake
 wt_config.xml
 
 
+install_manifest.txt
+src/http/libwthttp.4.10.0.dylib
+src/http/libwthttp.dylib
+src/libwt.4.10.0.dylib
+src/libwt.dylib
+src/libwttest.4.10.0.dylib
+src/libwttest.dylib
+test/test.http
+test/test.mssqlserver
+test/test.sqlite3
+test/test.wt
