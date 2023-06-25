@@ -1,2 +1,2 @@
-EXEC_PROGRAM(mkdir ARGS -p ${DESTDIR}${RUNDIR})
-EXEC_PROGRAM(chown ARGS ${WEBUSER}:${WEBGROUP} ${DESTDIR}${RUNDIR})
+EXEC_PROGRAM(mkdir ARGS -p /var/run/wt)
+EXEC_PROGRAM(chown ARGS apache:apache /var/run/wt)

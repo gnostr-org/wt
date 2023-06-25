@@ -254,15 +254,29 @@ find_package(Asciidoctor)
 set(HPDF_ROOT ${HARU_PREFIX})
 find_package(HPDF)
 
-set(OPENSSL_ROOT_DIR ${SSL_PREFIX})
-if (APPLE)
-    # This is a bug in CMake that causes it to prefer the system version over
-    # the one in the specified ROOT folder.
-    set(OPENSSL_ROOT_DIR ${OPENSSL_ROOT_DIR} /usr/local/Cellar/openssl@1.1/1.1.1s/)
-    set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.dylib CACHE FILEPATH "" FORCE)
-    set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.dylib CACHE FILEPATH "" FORCE)
+# set(OPENSSL_ROOT_DIR ${SSL_PREFIX})
+# if (APPLE)
+#     # This is a bug in CMake that causes it to prefer the system version over
+#     # the one in the specified ROOT folder.
+#     set(OPENSSL_ROOT_DIR ${OPENSSL_ROOT_DIR} /usr/local/Cellar/openssl@1.1/1.1.1s/)
+#     set(OPENSSL_CRYPTO_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libcrypto.dylib CACHE FILEPATH "" FORCE)
+#     set(OPENSSL_SSL_LIBRARY ${OPENSSL_ROOT_DIR}/lib/libssl.dylib CACHE FILEPATH "" FORCE)
+# endif()
+# OpenSSL
+find_package(OpenSSL REQUIRED)
+if(OPENSSL_FOUND)
+    if(APPLE)
+        include_directories(/usr/local/Cellar/openssl@1.1/1.1.1s/include)
+        list(APPEND LIB_LIST /usr/local/Cellar/openssl@1.1/1.1.1s/lib/libssl.dylib)
+        list(APPEND LIB_LIST /usr/local/Cellar/openssl@1.1/1.1.1s/lib/libcrypto.dylib)
+        message(STATUS "OpenSSL Version: ${OPENSSL_VERSION} ${OPENSSL_INCLUDE_DIR} ${OPENSSL_LIBRARIES}")
+    else()
+        include_directories(${OPENSSL_INCLUDE_DIR})
+        list(APPEND LIB_LIST ${OPENSSL_LIBRARIES})
+        message(STATUS "OpenSSL Version: ${OPENSSL_VERSION} ${OPENSSL_INCLUDE_DIR} ${OPENSSL_LIBRARIES}")
+    endif()
 endif()
-find_package(OpenSSL)
+
 
 IF (ENABLE_SAML)
   find_package(OpenSAML)
